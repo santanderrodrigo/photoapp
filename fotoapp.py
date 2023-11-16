@@ -422,5 +422,5 @@ def tp_rutina(path_files = "",darkImage = 'darktest.jpg',lightimage= 'lightest.j
     boceto1 = crear_boceto_persona(imagen_persona,True)
     plotpreview(boceto1)
 
-tp_rutina('testset/','darktest1.webp','lighttest1.webp','testpersona1.jpg')
-tp_rutina('testset/','darktest2.webp','lighttest2.webp','testpersona2.webp')
+#tp_rutina('testset/','darktest1.webp','lighttest1.webp','testpersona1.jpg')
+#tp_rutina('testset/','darktest2.webp','lighttest2.webp','testpersona2.webp')
