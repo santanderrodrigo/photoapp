@@ -237,6 +237,12 @@ def imagePreview(imagen_original):
     plt.show()
 
 def crear_boceto_persona(imagen_original,persona=True)->plt:
+    '''Crea un boceto de la persona en la imagen a partir del algoritmo canny.'''
+
+    #La combinación de la detección precisa de bordes, la supresión de ruido y la
+    #adaptabilidad a diferentes condiciones hacen que el algoritmo Canny sea una opción efectiva para realizar
+    #bocetos de personas a partir de imágenes, resaltando los contornos de manera clara y artística.
+
     if persona == False:
         print('No hay persona, ignorando boceto.')
         return emptyImage()
