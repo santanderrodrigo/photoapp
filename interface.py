@@ -1,9 +1,9 @@
-import fotoapp  # Importa el módulo fotoapp que contiene tus funciones
+import fotoapp
 
-imagen = None  # Inicialmente, no hay imagen cargada
+imagen = None
 
 def main():
-    global imagen  # Acceder a la variable imagen definida fuera de la función
+    global imagen  # Accedemos a la variable imagen definida fuera de la función
 
     while True:
         print('*******************************')
@@ -53,7 +53,6 @@ def main():
 
             elif opcion == "2":
                 # Ver histograma
-                # Implementa la lógica para ver el histograma de la imagen
                 fotoapp.histograma(imagen)
 
             elif opcion == "3":
@@ -108,7 +107,7 @@ def main():
 
             elif opcion == "10":
                 # Salir
-                print("¡Hasta luego!\nSi te ha gustado la App considera dejar una colaboración:\n₿ 1EGZ35PgTNiVLXmkbPMRuqit14b1apfdQJ")
+                print("¡Hasta luego!")
                 break
 
         else:
