@@ -27,7 +27,7 @@ except ImportError as e:
         missing_modules.append("io.BytesIO")
     print(f"Faltan las siguientes importaciones: {', '.join(missing_modules)}")
 
-
+# Lista de diemsniones recomendadas para cada red social
 dimensiones_recomendadas = {
         "Youtube": (1280, 720),
         "Instagram": (1080, 1080),
@@ -64,21 +64,21 @@ def getFilters()->list:
 
 def emptyImage()->Image:
     '''Esta función retorna una imagen en negro a partir de un array de ceros'''
-    # Tamaño de la imagen
+    # Seteamos el tamaño de la imagen
     ancho = 640
     alto = 480
 
-    # Crear una matriz NumPy completamente negra
+    # Creamos una matriz NumPy completamente negra
     imagen_negra = np.zeros((alto, ancho, 3), dtype=np.uint8)
 
-    # Guardar la imagen negra en un archivo
+    # retornamos la imagen
     return Image.fromarray(imagen_negra)
 
 def abrir_imagen(path: str)->Image:
     '''retorna la imagen a partir del path/url, en caso de error devuelve una imagen en negro'''
     parsed_url = urlparse(path)
 
-    # Comprobar si la URL tiene un esquema (http, https, etc.) y un netloc (dominio)
+    # Comprobamos si la URL tiene un esquema (http, https, etc.) y un netloc (dominio)
     if parsed_url.scheme and parsed_url.netloc:
         try:
             response = requests.get(path)
@@ -91,7 +91,7 @@ def abrir_imagen(path: str)->Image:
         except Exception as e:
             print(f"Ocurrió un error al abrir la imagen desde la URL: {e}")
     else:
-        # Abrir la imagen
+        # Intentamos abrir la imagen
         try:
             imagen = Image.open(path)
             return imagen
@@ -106,14 +106,14 @@ def redimensionar_imagen(ruta_imagen:str, palabra_clave:str)->Image:
 
     try:
         imagen = abrir_imagen(ruta_imagen)
-        # Obtener las dimensiones recomendadas para la palabra clave
+        # Obtenemos las dimensiones recomendadas para la palabra clave
         dimensiones = dimensiones_recomendadas.get(palabra_clave)
 
         if dimensiones:
-            # Redimensionar la imagen sin distorsión
+            # Redimensionamos la imagen sin distorsión
             imagen.thumbnail(dimensiones)
 
-            # Guardar la imagen redimensionada
+            # Guardamos la imagen redimensionada
             #imagen.save('temp_image.jpg')
             #print(f'La imagen se ha redimensionado correctamente para {palabra_clave}')
             return  imagen
@@ -133,11 +133,11 @@ def ecualizar_histograma(imagen:Image)->Image:
             print('Imagen inválida o corrupta')
             return emptyImage()
         else:
-            #convertimos la imagen en un array de np
+            # Convertimos la imagen en un array de np
             imagen = np.array(imagen)
 
-    if len(imagen.shape) == 2: #asumimos que solo posee ancho y alto, por lo que es escala de grises
-        # Si es una imagen monocromática (escala de grises)
+    if len(imagen.shape) == 2: # asumimos que solo posee ancho y alto, por lo que es escala de grises
+        # Si es una imagen monocromática (escala de grises) tenemos un solo canal realmente
         canal_b = imagen
         canal_g = imagen
         canal_r = imagen
@@ -172,17 +172,16 @@ def aplicar_filtro(imagen: Image, filtro_elegido:str)->Image:
         print('Imagen inválida o corrupta')
         return emptyImage()
 
-    # Aplicar el filtro seleccionado
+    # Aplicamos el filtro seleccionado
     if filtro_elegido in filtros_disponibles:
         imagen_filtrada = imagen.filter(getattr(ImageFilter, filtro_elegido))
 
-        # Guardar la imagen filtrada
-        #imagen_filtrada.save(f'{filtro_elegido}_filtrada.jpg')
         return imagen_filtrada
-
     else:
+        #si el filtro no es valido retonamos imagen vacia
         print("Filtro no válido. Los filtros disponibles son:", getFilters())
         return emptyImage()
+
 def filters_preview(imagen_original:Image, filtro_elegido:str)->plt:
     '''Retorna un matplotlib plot con todas las previsualñizaciones de todos los filtros disponibles
     marcando en rojo el filtro seleccionado como parametro filtro_elegido'''
@@ -198,7 +197,7 @@ def filters_preview(imagen_original:Image, filtro_elegido:str)->plt:
 
         imagen_filtrada = imagen.filter(getattr(ImageFilter, filtro_elegido))
 
-        # Mostrar la imagen original y la imagen filtrada en una sola figura
+        # Mostramos la imagen original y la imagen filtrada en una sola figura
         plt.figure(figsize=(15, 15))
         plt.subplot(3, 4, 1)
         plt.title(filtros_disponibles["ORIGINAL"])
@@ -211,32 +210,30 @@ def filters_preview(imagen_original:Image, filtro_elegido:str)->plt:
                 plt.title(filtros_disponibles[filtro], color='red' if filtro == filtro_elegido else 'black')
                 plt.imshow(imagen.filter(getattr(ImageFilter, filtro)))
                 plt.axis("off")
-
-        # Guardar la figura que muestra las imágenes originales y filtradas
-        #plt.savefig('imagenes_filtradas.png')
-        # Mostrar la figura
-        #plt.show()
+        # Retornamos la figura
         return plt
     else:
         print("Filtro no válido. Los filtros disponibles son:", getFilters())
-        # Crear una figura y ejes vacíos
+        # Creamos una figura y ejes vacíos
         fig, ax = plt.subplots()
+        # Retornamos la figura vacia
         return plt
 
-def plotpreview(plot):
-    # Mostrar la imagen
+def plotpreview(plot: plt):
+    '''Esta funcion muestra la figura a partir de un PLOT de matplotliob'''
+    # Muestra el grafico
     plot.show()
 
 def imagePreview(imagen_original):
+    '''Muestra la imagen en un grafico de matplotlib'''
     if not isinstance(imagen_original, Image.Image):
         print('Imagen inválida o corrupta')
         return emptyImage()
-    # Cargar la imagen en escala de grises
     imagen = np.array(imagen_original)
 
-    # Mostrar la imagen
+    # Mostramos la imagen
     plt.imshow(imagen)
-    plt.axis('off')  # Para ocultar los ejes si lo prefieres
+    plt.axis('off')
     plt.show()
 
 def crear_boceto_persona(imagen_original,persona=True)->plt:
@@ -247,16 +244,16 @@ def crear_boceto_persona(imagen_original,persona=True)->plt:
     if not isinstance(imagen_original, Image.Image):
         print('Imagen inválida o corrupta')
         return emptyImage()
-    # Cargar la imagen en escala de grises
+
     imagen = np.array(imagen_original)
 
-    # Convertir la imagen a escala de grises
+    # Convertimos la imagen a escala de grises
     gris = cv2.cvtColor(imagen, cv2.COLOR_BGR2GRAY)
 
-    # Aplicar el detector de bordes Canny
+    # Aplicamos el detector de bordes Canny
     bordes = cv2.Canny(gris, 50, 150)
 
-    # Visualizar la imagen original y la imagen con los bordes resaltados
+    # Visualñizamos la imagen original y la imagen con los bordes resaltados
     plt.figure(figsize=(10, 5))
 
     plt.subplot(1, 2, 1)
@@ -267,17 +264,17 @@ def crear_boceto_persona(imagen_original,persona=True)->plt:
     plt.imshow(bordes, cmap='gray')
     plt.title('Bordes Resaltados')
 
-    # Guardar la figura que muestra la imagen original y el boceto
+    # Guardamos la figura que muestra la imagen original y el boceto
     plt.savefig('boceto_persona.png')
 
     return plt
 
 def histograma(imagen: Image):
-
+    '''Muestra el histograma de la imagen en un grafico de matplotlib'''
     imagen = np.array(imagen)
     hist, bins = np.histogram(imagen.flatten(), 256, [0, 256])
 
-    # cumulative distribution function
+    # función de distribución acumulativa
     cdf = hist.cumsum()
     cdf_normalized = cdf * float(hist.max()) / cdf.max()
 
