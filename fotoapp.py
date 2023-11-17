@@ -222,50 +222,11 @@ def filters_preview(imagen_original:Image, filtro_elegido:str)->plt:
         # Crear una figura y ejes vacíos
         fig, ax = plt.subplots()
         return plt
-def crear_boceto_persona_(imagen:Image) ->plt:
-    if not isinstance(imagen, np.ndarray):
-        if not isinstance(imagen, Image.Image):
-            print('Imagen inválida o corrupta')
-            # Crear una figura y ejes vacíos
-            fig, ax = plt.subplots()
-            return plt
-        else:
-            # convertimos la imagen en un array de np
-            imagen = np.array(imagen)
-
-    imagen = cv2.cvtColor(imagen, cv2.COLOR_BGR2GRAY)
-    imagen = np.array(ecualizar_histograma(imagen))
-
-
-    # Aplicar el filtro Sobel para detección de bordes
-    bordes = cv2.Sobel(imagen, cv2.CV_64F, 1, 1, ksize=5)
-    bordes = cv2.convertScaleAbs(bordes)
-
-    # Binarizar la imagen de bordes
-    _, binarizada = cv2.threshold(bordes, 100, 255, cv2.THRESH_BINARY)
-
-    # Mostrar la imagen original y el boceto en una figura
-    plt.figure(figsize=(10, 5))
-    plt.subplot(1, 2, 1)
-    plt.title("Imagen Original")
-    plt.imshow(imagen_original)
-    plt.axis("off")
-
-    plt.subplot(1, 2, 2)
-    plt.title("Boceto de la Persona")
-    plt.imshow(binarizada, cmap='gray')
-    plt.axis("off")
-
-    # Guardar la figura que muestra la imagen original y el boceto
-    plt.savefig('boceto_persona.png')
-
-    # Mostrar la figura
-    #plt.show()
-    return plt
 
 def plotpreview(plot):
     # Mostrar la imagen
     plot.show()
+
 def imagePreview(imagen_original):
     if not isinstance(imagen_original, Image.Image):
         print('Imagen inválida o corrupta')

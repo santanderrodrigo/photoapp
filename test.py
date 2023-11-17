@@ -5,7 +5,7 @@ from PIL import Image
 import numpy as np
 import matplotlib.pyplot as plt
 
-from fotoapp import getSocial, getFilters, emptyImage, abrir_imagen, redimensionar_imagen, ecualizar_histograma, aplicar_filtro, filters_preview, crear_boceto_persona_, imagePreview, crear_boceto_persona, histograma
+from fotoapp import getSocial, getFilters, emptyImage, abrir_imagen, redimensionar_imagen, ecualizar_histograma, aplicar_filtro, filters_preview, imagePreview, crear_boceto_persona, histograma
 '''
 Este modulo es para hacer una bateria de pruebas muy básicas sobre las funciones de fotoapp.py
 Me gustaría poder desarrollarlo más, ya que es algo que siempre me gusta realizar testing sobre 
