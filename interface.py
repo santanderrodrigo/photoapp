@@ -3,7 +3,7 @@ import fotoapp
 imagen = None
 
 def main():
-    global imagen  # Accedemos a la variable imagen definida fuera de la función
+    global imagen  # Accedemos a la variable imagen definida fuera de la función.
 
     while True:
         print('*******************************')
